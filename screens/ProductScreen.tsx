@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { Product } from "@/data/models/Product";
 import ItemCounter from "@/components/ItemCounter";
+import useStore from "../stores/useStore";
 
 export default function ProductScreen() {
     const { id } = useLocalSearchParams()
@@ -18,6 +19,12 @@ export default function ProductScreen() {
 }
 
 function ProductContent({ product }: { product: Product }) {
+    const cart = useStore((state) => state.cart)
+    const addItem = useStore((state) => state.addItem)
+    const removeItem = useStore((state) => state.removeItem)
+    const getItem = useStore((state) => state.getItem)
+    const removeById = useStore((state) => state.removeById)
+
     return (
         <View style={styles.container}>
             <Image 
@@ -32,8 +39,24 @@ function ProductContent({ product }: { product: Product }) {
             </View>
             <Text style={styles.description}>{product.description}</Text>
             <View style={{ flex: 1 }}/>
-            {/* <Text>${product.price}</Text> */}
-            <ItemCounter quantity={1} onIncrement={() => {}} onDecrement={() => {}} onAdd={() => {}} />
+            <ItemCounter 
+                quantity={getItem(product.id)?.quantity ?? 0} 
+                onIncrement={() => {
+                    addItem({
+                        id: product.id,
+                        title: product.title,
+                        price: product.price,
+                        quantity: 1
+                    })
+                }} 
+                onDecrement={() => {
+                    removeItem(product.id)
+                }} 
+                onRemoveItem={() => {
+                    removeById(product.id)
+                }}
+                openCart={() => {}}
+            />
         </View>
     );
 }

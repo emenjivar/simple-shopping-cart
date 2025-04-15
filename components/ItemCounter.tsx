@@ -6,16 +6,20 @@ type Props = {
     style?: ViewStyle,
     onIncrement: () => void,
     onDecrement: () => void,
-    onAdd: () => void
+    onRemoveItem: () => void,
+    openCart: () => void
 }
-export default function ItemCounter({ quantity, style, onIncrement, onDecrement, onAdd}: Props) {
+export default function ItemCounter({ quantity, style, onIncrement, onDecrement, onRemoveItem, openCart}: Props) {
     return (
-        <View style={[styles.container]}>
-            <TouchableOpacity>
-                <Text style={styles.link}>Add to cart</Text>
+        <View style={[styles.container, style]}>
+            <TouchableOpacity onPress={openCart}>
+                <Text style={styles.link}>Go to cart</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onRemoveItem}>
+                <Text style={styles.link}>Remove</Text>
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TouchableOpacity style={styles.roundedButton}>
+                <TouchableOpacity style={styles.roundedButton} onPress={onDecrement}>
                     <IconSymbol
                         name="minus"
                         size={24}
@@ -23,7 +27,7 @@ export default function ItemCounter({ quantity, style, onIncrement, onDecrement,
                         />
                 </TouchableOpacity>
                 <Text style={styles.total}>{quantity}</Text>
-                <TouchableOpacity style={styles.roundedButton}>
+                <TouchableOpacity style={styles.roundedButton} onPress={onIncrement}>
                     <IconSymbol
                         name="plus"
                         size={24}

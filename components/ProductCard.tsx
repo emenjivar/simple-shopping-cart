@@ -1,6 +1,7 @@
 import { Product } from "@/data/models/Product";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import useStore from "../stores/useStore"
 import { View, Text, ViewStyle, StyleSheet, Image, Button, TouchableOpacity, TouchableHighlight, Pressable } from "react-native";
 
 type Props = {
@@ -12,6 +13,7 @@ export default function ProductCard(
     { product, style }: Props
 ) {
     const router = useRouter()
+
     return (
         <Pressable 
             onPress={() => {
@@ -25,14 +27,8 @@ export default function ProductCard(
                     resizeMode="contain" />
                 <View style={styles.row}>
                     <Text style={styles.title} numberOfLines={1}>{product.title}</Text>
-                    <Text style={[styles.tag, { flex: 1 }]}>{product.category} </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 2}}>
-                        <TouchableOpacity  style={styles.button} onPress={() => {}}>
-                            <Ionicons name="cart" color={actionColor} size={20} />
-                        </TouchableOpacity>
-                        <Text style={[styles.tag, { marginStart: 5 }]}>${product.price}</Text>
-                    </View>
-        
+                    <Text style={styles.tag}>${product.price}</Text>
+                    <Text style={styles.tag}>{product.category} </Text>
                 </View>
             </View>
         </Pressable>
@@ -60,7 +56,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 15,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginBottom: 5
     },
     tag: {
         borderColor: actionColor,
@@ -69,7 +66,9 @@ const styles = StyleSheet.create({
         paddingVertical: 4,
         borderRadius: 15,
         color: actionColor,
-        textAlign: 'center'
+        textAlign: 'center',
+        alignSelf: 'flex-start',
+        marginVertical: 2
     },
     total: {
         color: actionColor
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
         borderColor: actionColor,
         borderRadius: 15,
         borderWidth: 1,
-        width: 35,
+        width: 45,
         height: 35,
         alignItems: 'center',
         justifyContent: 'center',
