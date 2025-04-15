@@ -1,6 +1,7 @@
 import { Product } from "@/data/models/Product";
 import { Ionicons } from "@expo/vector-icons";
-import { View, Text, ViewStyle, StyleSheet, Image, Button, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
+import { View, Text, ViewStyle, StyleSheet, Image, Button, TouchableOpacity, TouchableHighlight, Pressable } from "react-native";
 
 type Props = {
     product: Product,
@@ -10,24 +11,31 @@ type Props = {
 export default function ProductCard(
     { product, style }: Props
 ) {
+    const router = useRouter()
     return (
-        <View style={[style, styles.container]}>
-            <Image 
-                style={styles.image} 
-                source={{ uri: product.image }}
-                resizeMode="contain" />
-            <View style={styles.row}>
-                <Text style={styles.title} numberOfLines={1}>{product.title}</Text>
-                <Text style={[styles.tag, { flex: 1 }]}>{product.category} </Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 2}}>
-                    <TouchableOpacity  style={styles.button} onPress={() => {}}>
-                        <Ionicons name="cart" color={actionColor} size={20} />
-                    </TouchableOpacity>
-                    <Text style={[styles.tag, { marginStart: 5 }]}>${product.price}</Text>
+        <Pressable 
+            onPress={() => {
+                router.navigate(`/product/${product.id}`)
+            }} 
+            style={[style]}>
+            <View style={styles.container}>
+                <Image 
+                    style={styles.image} 
+                    source={{ uri: product.image }}
+                    resizeMode="contain" />
+                <View style={styles.row}>
+                    <Text style={styles.title} numberOfLines={1}>{product.title}</Text>
+                    <Text style={[styles.tag, { flex: 1 }]}>{product.category} </Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 2}}>
+                        <TouchableOpacity  style={styles.button} onPress={() => {}}>
+                            <Ionicons name="cart" color={actionColor} size={20} />
+                        </TouchableOpacity>
+                        <Text style={[styles.tag, { marginStart: 5 }]}>${product.price}</Text>
+                    </View>
+        
                 </View>
-    
             </View>
-        </View>
+        </Pressable>
     );
 }
 

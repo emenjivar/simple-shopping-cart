@@ -1,17 +1,17 @@
 import { Product } from "@/data/models/Product";
 import { ProductRepository } from "@/data/repositories/ProductRepository";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-export function useProducts() {
-    const [products, setProducts] = useState<Product[]>([])
+export function useFetchProduct(id: number) {
+    const [product, setProduct] = useState<Product | null>(null)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const repository = new ProductRepository()
-        repository.getAll()
-            .then(setProducts)
+        repository.findById(id)
+            .then(setProduct)
             .catch((err) => setError(err.message))
-    }, [])
+    }, [id])
 
-    return { products, error }
+    return { product, error }
 }
