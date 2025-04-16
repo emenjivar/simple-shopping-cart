@@ -11,7 +11,7 @@ export function CartSummaryBottomBar({ quantity, totalPrice, style }: Props) {
         <View style={[styles.container, style]}>
             <View>
                 <Text style={styles.text}>{`Total items: \t${quantity}`}</Text>
-                <Text style={styles.text}>{`Total price ($): \t${totalPrice}`}</Text>
+                <Text style={styles.text}>{`Total price ($): \t${totalPrice.toFixed(2)}`}</Text>
             </View>
             <Text style={styles.link}>Go to payment</Text>
         </View>

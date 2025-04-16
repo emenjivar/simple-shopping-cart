@@ -4,6 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 import { Product } from "@/data/models/Product";
 import ItemCounter from "@/components/ItemCounter";
 import useStore from "../stores/useStore";
+import { useRouter } from "expo-router";
 
 export default function ProductScreen() {
     const { id } = useLocalSearchParams()
@@ -24,21 +25,25 @@ function ProductContent({ product }: { product: Product }) {
     const removeItem = useStore((state) => state.removeItem)
     const getItem = useStore((state) => state.getItem)
     const removeById = useStore((state) => state.removeById)
+    const router = useRouter()
 
     return (
         <View style={styles.container}>
-            <Image 
-                style={styles.image}
-                source={{ uri : product.image }}
-                resizeMode="contain" />
-            
-            <Text style={styles.title}>{product.title}</Text>
-            <View style={{ flexDirection: 'row', marginVertical: 10 }}>
-                <Text style={styles.tag}>Category: {product.category}</Text>
-                <Text style={styles.tag}>$ {product.price}</Text>
+            <View style={{ flex: 1, padding: 15 }}>
+                <Image 
+                    style={styles.image}
+                    source={{ uri : product.image }}
+                    resizeMode="contain" />
+                
+                <Text style={styles.title}>{product.title}</Text>
+                <View style={{ flexDirection: 'row', marginVertical: 10 }}>
+                    <Text style={styles.tag}>Category: {product.category}</Text>
+                    <Text style={styles.tag}>$ {product.price}</Text>
+                </View>
+                <Text style={styles.description}>{product.description}</Text>
             </View>
-            <Text style={styles.description}>{product.description}</Text>
-            <View style={{ flex: 1 }}/>
+
+            
             <ItemCounter 
                 quantity={getItem(product.id)?.quantity ?? 0} 
                 onIncrement={() => {
@@ -56,7 +61,9 @@ function ProductContent({ product }: { product: Product }) {
                 onRemoveItem={() => {
                     removeById(product.id)
                 }}
-                openCart={() => {}}
+                openCart={() => {
+                    router.navigate('/cart')
+                }}
             />
         </View>
     );
@@ -67,7 +74,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        padding: 20
     },
     image: {
         width: '100%',

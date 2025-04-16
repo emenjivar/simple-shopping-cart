@@ -12,12 +12,15 @@ type Props = {
 export default function ItemCounter({ quantity, style, onIncrement, onDecrement, onRemoveItem, openCart}: Props) {
     return (
         <View style={[styles.container, style]}>
-            <TouchableOpacity onPress={openCart}>
-                <Text style={styles.link}>Go to cart</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={onRemoveItem}>
-                <Text style={styles.link}>Remove</Text>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row'}}>
+                <TouchableOpacity onPress={openCart}>
+                    <Text style={styles.link}>Go to cart</Text>
+                </TouchableOpacity>
+                <View style={{ width: 15 }}/>
+                <TouchableOpacity onPress={onRemoveItem}>
+                    <Text style={styles.link}>Remove</Text>
+                </TouchableOpacity>
+            </View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TouchableOpacity style={styles.roundedButton} onPress={onDecrement}>
                     <IconSymbol
@@ -43,12 +46,16 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
-        paddingVertical: 10
+        justifyContent: 'space-between',
+        backgroundColor: 'black',
+        paddingHorizontal: 20,
+        paddingBottom: 50,
+        paddingTop: 10,
     },
     total: {
-        fontSize: 20,
+        fontSize: 15,
         marginHorizontal: 10,
+        color: 'white'
     },
     roundedButton: {
         padding: 5,
@@ -59,8 +66,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     link: {
-        color: 'blue',
+        color: 'white',
         textDecorationLine: 'underline',
-        fontSize: 18
+        fontSize: 15
     }
 });
