@@ -8,3 +8,6 @@ This is a simple shooping cart build with React native. The purpose of this proj
 
 ## Demo video
 You can watch the video showcasing the app functionality here:
+
+https://github.com/user-attachments/assets/e3568820-cde1-473e-b526-b4a794710740
+
