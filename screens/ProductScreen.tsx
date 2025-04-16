@@ -46,7 +46,8 @@ function ProductContent({ product }: { product: Product }) {
                         id: product.id,
                         title: product.title,
                         price: product.price,
-                        quantity: 1
+                        quantity: 1,
+                        image: product.image
                     })
                 }} 
                 onDecrement={() => {

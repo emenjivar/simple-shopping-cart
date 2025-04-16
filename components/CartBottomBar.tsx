@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View, ViewStyle } from "react-native"
+import { useRouter } from "expo-router";
+import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native"
 
 type Props = {
     style?: ViewStyle,
@@ -6,10 +7,16 @@ type Props = {
 }
 
 export default function CartBottomBar({ quantity, style }: Props) {
+    const router = useRouter()
+    
     return (
         <View style={[styles.container, style]}>
             <Text style={styles.text}>Items added to cart: {quantity}</Text>
-            <Text style={styles.link}>Go to cart</Text>
+            <Pressable onPress={() => {
+                router.navigate('/cart')
+            }}>
+                <Text style={styles.link}>Go to cart</Text>
+            </Pressable>
         </View>
     )
 }

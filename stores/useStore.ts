@@ -1,14 +1,16 @@
 import { create } from "zustand";
 
-type CartItem = {
+export type CartItem = {
     id: Number,
     title: string,
     price: number,
-    quantity: number
+    quantity: number,
+    image: string
 }
 
 type CartState = {
     count: number,
+    total: number,
     cart: CartItem[],
     addItem: (item: CartItem) => void,
     removeItem: (id: number) => void,
@@ -18,6 +20,7 @@ type CartState = {
 
 const useStore = create<CartState>((set, get) => ({
     count: 0,
+    total: 0,
     cart: [],
     addItem: (item) => {
         set((state) => {
@@ -33,6 +36,7 @@ const useStore = create<CartState>((set, get) => ({
                 })
                 return {
                     count: state.count + 1,
+                    total: state.total + item.quantity * item.price,
                     cart: updatedCart
                 }
             }
@@ -40,6 +44,7 @@ const useStore = create<CartState>((set, get) => ({
             // Append the new item to the cart
             return {
                 count: state.count + 1,
+                total: state.total + item.price * item.quantity,
                 cart: [...state.cart, {...item, quantity: 1}]
             }
         })
@@ -58,6 +63,7 @@ const useStore = create<CartState>((set, get) => ({
                 })
                 return {
                     count: state.count - 1,
+                    total: state.total - existingItem.price * existingItem.quantity,
                     cart: updatedCart
                 }
             }
@@ -68,8 +74,12 @@ const useStore = create<CartState>((set, get) => ({
     },
     removeById: (id) => {
         set((state) => {
+            let amount = state.cart.reduce((total, item) => {
+                return total + item.price * item.quantity
+            }, 0)
             return {
                 count: 0,
+                total: state.total - amount,
                 cart: state.cart.filter(item => item.id != id)
             }
         })
